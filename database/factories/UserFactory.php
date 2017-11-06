@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Kitten::class, function(Faker $faker){
+$factory->define(App\Animal::class, function(Faker $faker){
 	$userIDs = \App\User::getAllUsersIds();
 	$kittensPhotos = kittensPhotos();
 	dd($kittensPhotos);
@@ -37,6 +37,12 @@ $factory->define(App\Kitten::class, function(Faker $faker){
 		'victories'=>0,
 		'failures'=>0,
 		'score'=>0
+	];
+});
+
+$factory->define(App\Kitten::class, function(Faker $faker){
+	return [
+	
 	];
 });
 
