@@ -1,0 +1,37 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+abstract class Animal extends Model
+{
+    protected $table = 'animals';
+	protected $fillable = [
+		'owner_id',
+		'type',
+		'name',
+		'photo',
+		'victories',
+		'failures',
+		'score'
+	];
+ 
+	#region RELATION METHODS
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
+	
+	public function kitten()
+	{
+		return $this->hasOne(Kitten::class);
+	}
+	
+	public function puppy()
+	{
+		return $this->hasOne(Puppy::class);
+	}
+	#endregion
+ 
+}

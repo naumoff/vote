@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public static function getAllUsersIds()
+    {
+    	return self::all('id')->toArray();
+    }
+    
+    #region RELATION METHODS
+	public function animals()
+	{
+		return $this->hasMany(Animal::class);
+	}
+	#endregion
 }

@@ -54,6 +54,20 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+	    
+	    'kittens' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/kittens'),
+            'url' => env('APP_URL').'/kittens',
+            'visibility' => 'public',
+        ],
+	    
+	    'puppies' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/puppies'),
+            'url' => env('APP_URL').'/puppies',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
