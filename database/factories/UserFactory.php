@@ -26,14 +26,8 @@ $factory->define(App\User::class, function (Faker $faker) {
 });
 
 $factory->define(App\Animal::class, function(Faker $faker){
-	$userIDs = \App\User::getAllUsersIds();
-	$kittensPhotos = kittensPhotos();
-	dd($kittensPhotos);
 	return [
-		'owner_id'=>$userIDs[rand(0,count($userIDs)-1)],
-		'type'=>'kitten',
-		'name'=>$faker->name,
-		'photo'=>'',
+		'name'=>$faker->firstName,
 		'victories'=>0,
 		'failures'=>0,
 		'score'=>0
@@ -41,22 +35,10 @@ $factory->define(App\Animal::class, function(Faker $faker){
 });
 
 $factory->define(App\Kitten::class, function(Faker $faker){
-	return [
-	
-	];
+	return [];
 });
 
-#region SERVICE METHODS
-function kittensPhotos()
-{
-	$files = Storage::files('kittens');
-	return $files;
-}
-
-function puppiesPhotos()
-{
-	$files = Storage::files('puppies');
-	return $files;
-}
-#endregion
+$factory->define(\App\Puppy::class, function(Faker $faker){
+	return [];
+});
 

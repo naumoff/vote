@@ -35,7 +35,7 @@ class User extends Authenticatable
     #region RELATION METHODS
 	public function animals()
 	{
-		return $this->hasMany(Animal::class);
+		return $this->hasMany(Animal::class,'id','owner_id');
 	}
 	#endregion
 }
