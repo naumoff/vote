@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
-	private $entitiesNeeded = 25987;
+	private $entitiesNeeded = 9;
 	private $puppyTypes;
 	private $kittenFur;
 	

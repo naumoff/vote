@@ -16,6 +16,21 @@ class Animal extends Model
 		'failures',
 		'score'
 	];
+	
+	#region MAIN METHODS
+	public static function fetchAnimals()
+	{
+		$animals = self::orderBy('score','desc')
+			->get([
+				'id',
+				'type',
+				'name',
+				'photo'
+			])
+			->toArray();
+		return $animals;
+	}
+	#endregion
  
 	#region RELATION METHODS
 	public function user()

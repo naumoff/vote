@@ -26,3 +26,7 @@ Route::get('/test', function(){
 	var_dump($files);
 	
 });
+
+Route::get('/rest', function(\App\Services\MatchGeneratorInterface $object){
+	dd($object->compileMatchMap());
+});
