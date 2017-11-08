@@ -8,10 +8,12 @@ class DatabaseSeeder extends Seeder
 	private $entitiesNeeded = 9;
 	private $puppyTypes;
 	private $kittenFur;
+	private $matches;
 	
-	public function __construct() {
+	public function __construct(\App\Services\MatchGeneratorInterface $matches) {
 		$this->puppyTypes = config('globals.puppyTypes');
 		$this->kittenFur = config('globals.kittenFur');
+		$this->matches = $matches;
 	}
 	
 	/**
@@ -37,6 +39,7 @@ class DatabaseSeeder extends Seeder
 			
 		    $this->createPuppy($userID);
 	    }
+	    $this->saveMatchesToRedis();
     }
     
     #region SERVICE METHODS
@@ -78,6 +81,13 @@ class DatabaseSeeder extends Seeder
 	{
 		$files = Storage::files('/public/puppies');
 		return $files;
+	}
+	
+	private final function saveMatchesToRedis()
+	{
+		$this->matches->compileMatchMap();
+		$this->matches->saveMatchMap();
+		
 	}
 	#endregion
 }

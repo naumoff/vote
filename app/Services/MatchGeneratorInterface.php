@@ -11,4 +11,5 @@ namespace App\Services;
 
 interface MatchGeneratorInterface {
 	public function compileMatchMap();
+	public function saveMatchMap();
 }

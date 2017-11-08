@@ -10,8 +10,11 @@ namespace App\Services;
 
 
 use App\Animal;
+use Illuminate\Support\Facades\Redis;
 
-class MatchGenerator implements MatchGeneratorInterface {
+class RedisMatchGenerator implements MatchGeneratorInterface {
+	
+	private $matches;
 	
 	#region MAIN METHODS
 	
@@ -20,9 +23,13 @@ class MatchGenerator implements MatchGeneratorInterface {
 		$animals = $this->fetchAnimals();
 		$rangedAnimals = $this->rangeAnimals($animals);
 		unset($animals);
-		$matches = $this->makeMatches($rangedAnimals);
+		$this->matches = $this->makeMatches($rangedAnimals);
 		unset($rangedAnimals);
-		$this->saveToRedis($matches);
+	}
+	
+	public function saveMatchMap()
+	{
+		$this->saveToRedis();
 	}
 	
 	#endregion
@@ -99,9 +106,23 @@ class MatchGenerator implements MatchGeneratorInterface {
 		return $matches;
 	}
 	
-	private function saveToRedis($matches)
+	private function saveToRedis()
 	{
-		dump($matches);
+		if(count($this->matches) > 0){
+			Redis::pipeline(function($pipe) {
+				$pipe->flushdb();
+				foreach ($this->matches AS $key=>$match){
+					foreach ($match AS $index=>$animal){
+						$pipe->hmset('matches:'.$key,
+							'id_'.$index, $animal['id'],
+							'name_'.$index, $animal['name'],
+							'type_'.$index, $animal['type'],
+							'photo_'.$index, $animal['photo']
+						);
+					}
+				}
+			});
+		}
 	}
 	#endregion
 }
