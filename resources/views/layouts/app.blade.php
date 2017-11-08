@@ -63,6 +63,11 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('logout') }}">
+                                            Add New Animal
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest

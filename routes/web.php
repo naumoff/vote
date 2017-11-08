@@ -21,12 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/test', function(){
-	$files = Storage::files('/public/kittens');
-	var_dump($files);
-	
-});
-
-Route::get('/rest', function(\App\Services\MatchGeneratorInterface $object){
-	dd($object->compileMatchMap());
-});
+ 
