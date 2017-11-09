@@ -22,10 +22,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/test', function(\App\Services\MatchGeneratorInterface $object){
-	dd($object->getMatchMap());
+Route::get('/test', function(\App\Services\UserMatchSaverInterface $userMatch){
+	$userMatch->saveMatchesForUser();
 });
 
-Route::get('/rest', function(\App\Services\MatchGeneratorInterface $object){
-	dd($object->compileMatchMap()->saveMatchMap());
+Route::get('/rest', function(\App\Services\MatchGeneratorInterface $allMatch){
+	dd($allMatch->compileMatchMap()->saveMatchMap());
 });

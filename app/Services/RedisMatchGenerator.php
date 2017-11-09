@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Animal;
 use Illuminate\Support\Facades\Redis;
 
@@ -25,6 +24,7 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 		unset($animals);
 		$this->matches = $this->makeMatches($rangedAnimals);
 		unset($rangedAnimals);
+		
 		return $this;
 	}
 	
@@ -36,10 +36,8 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 	public function getMatchMap()
 	{
 		$redis = Redis::connection();
-		$data = $redis->keys('matches:*');
-		foreach ($data AS $key){
-			$this->matches[] = $redis->hgetall($key);
-		}
+		$data = $redis->dump('matches');
+		return $data;
 	}
 	
 	#endregion
@@ -53,6 +51,7 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 	private function rangeAnimals($animals)
 	{
 		$groupQty = (int)floor(count($animals)/3);
+
 		$rangedAnimals = [
 			'top'=>[],
 			'middle'=>[],
@@ -103,7 +102,9 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 		unset($rangedAnimals);
 		
 		$matches = [];
+		
 		$iteration = count($top)*3;
+		if($iteration > 500){$iteration = 500;}
 		
 		for($a=0; $a<$iteration; $a++){
 			// top - middle
@@ -121,18 +122,22 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 		if(count($this->matches) > 0){
 			Redis::pipeline(function($pipe) {
 				$pipe->flushdb();
-				foreach ($this->matches AS $key=>$match){
-					foreach ($match AS $index=>$animal){
-						$pipe->hmset('matches:'.$key,
-							'id_'.$index, $animal['id'],
-							'name_'.$index, $animal['name'],
-							'type_'.$index, $animal['type'],
-							'photo_'.$index, $animal['photo']
-						);
-					}
+				foreach ($this->matches AS $key=>$match) {
+					$match = [
+						'id_0' => $match[0]['id'],
+						'name_0' => $match[0]['name'],
+						'type_0' => $match[0]['type'],
+						'photo_0' => $match[0]['photo'],
+						'id_1' => $match[1]['id'],
+						'name_1' => $match[1]['name'],
+						'type_1' => $match[1]['type'],
+						'photo_1' => $match[1]['photo'],
+					];
+					$pipe->rpush('matches',serialize($match));
 				}
 			});
 		}
+
 	}
 	#endregion
 }

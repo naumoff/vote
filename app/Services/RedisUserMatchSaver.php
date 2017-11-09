@@ -15,28 +15,29 @@ class RedisUserMatchSaver implements UserMatchSaverInterface
 {
 	private $loggedUserID;
 	private $matchGenerator;
-	private $redis;
+	private $redis1;
+	private $redis2;
 	
 	public function __construct(MatchGeneratorInterface $matchGenerator)
 	{
 		$this->loggedUserID = Auth::id();
 		$this->matchGenerator = $matchGenerator;
-		$this->redis = Redis::connection();
+		$this->redis1 = Redis::connection();
+		$this->redis2 = Redis::connection('users');
 	}
 	
 	#region MAIN METHODS
 	public function saveMatchesForUser() {
 		if($this->loggedUserID !== null){
-			
 			$allMatchesStatus = $this->checkGeneratedMatches();
 			if($allMatchesStatus === false){
 				$this->createGeneratedMatches();
 			}
 			
-//			$userMatchesStatus = $this->checkUserMatches();
-//			dd($userMatchesStatus);
-			
-			$this->saveUserMatches();
+			$userMatchesStatus = $this->checkUserMatches();
+			if($userMatchesStatus === false){
+				$this->createUserMatches();
+			}
 		}
 	}
 	#endregion
@@ -44,7 +45,7 @@ class RedisUserMatchSaver implements UserMatchSaverInterface
 	#region SERVICE METHODS
 	private function checkGeneratedMatches()
 	{
-		$data = $this->redis->hgetall('matches:0');
+		$data = $this->redis1->lrange('matches',0,1);
 		if(count($data)==0){
 			return false;
 		}else{
@@ -60,12 +61,16 @@ class RedisUserMatchSaver implements UserMatchSaverInterface
 	
 	private function checkUserMatches()
 	{
-	
+		return false;
 	}
 	
-	private function saveUserMatches()
+	private function createUserMatches()
 	{
-		$matchMap = $this->matchGenerator->getMatchMap();
+		Redis::pipeline(function($pipe){
+			$matches = $this->matchGenerator->getMatchMap();
+			$this->redis2->del("user:$this->loggedUserID");
+			$this->redis2->restore("user:$this->loggedUserID", 0, $matches);
+		});
 	}
 	#endregion
 }
