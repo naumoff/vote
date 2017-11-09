@@ -181,7 +181,8 @@ return [
 	    Barryvdh\Debugbar\ServiceProvider::class,
 	    
 	    //Custom Providers
-	    App\Providers\MatchMapServiceProvider::class
+	    App\Providers\MatchMapServiceProvider::class,
+	    \App\Providers\UserMatchMapServiceProvider::class
     ],
 
     /*

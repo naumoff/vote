@@ -21,4 +21,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
- 
+
+Route::get('/test', function(\App\Services\MatchGeneratorInterface $object){
+	dd($object->getMatchMap());
+});
+
+Route::get('/rest', function(\App\Services\MatchGeneratorInterface $object){
+	dd($object->compileMatchMap()->saveMatchMap());
+});

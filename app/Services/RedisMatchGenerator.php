@@ -25,11 +25,21 @@ class RedisMatchGenerator implements MatchGeneratorInterface {
 		unset($animals);
 		$this->matches = $this->makeMatches($rangedAnimals);
 		unset($rangedAnimals);
+		return $this;
 	}
 	
 	public function saveMatchMap()
 	{
 		$this->saveToRedis();
+	}
+	
+	public function getMatchMap()
+	{
+		$redis = Redis::connection();
+		$data = $redis->keys('matches:*');
+		foreach ($data AS $key){
+			$this->matches[] = $redis->hgetall($key);
+		}
 	}
 	
 	#endregion
