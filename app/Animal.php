@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Animal extends Model
 {
@@ -29,6 +30,16 @@ class Animal extends Model
 			])
 			->toArray();
 		return $animals;
+	}
+	
+	public static function getUserAnimals($userID, $limit=null)
+	{
+		$userAnimals = self::with('kitten','puppy')
+			->where('owner_id','=',$userID)
+			->orderBy('score','desc')
+			->limit($limit)
+			->get();
+		return $userAnimals;
 	}
 	#endregion
  

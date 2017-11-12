@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -16,6 +18,7 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    #region MAIN METHODS
     /**
      * Show the application dashboard.
      *
@@ -23,6 +26,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+    	$animalsOfLoggedUser = $this
+		    ->getAllAnimalsForLoggedUser()
+		    ->toArray();
+        return view('home', ['myAnimals'=>$animalsOfLoggedUser]);
     }
+    #endregion
+	
+	#region SERVICE MATHODS
+	private function getAllAnimalsForLoggedUser()
+	{
+		$userID = Auth::id();
+		$data = Animal::getUserAnimals($userID,50);
+		return $data;
+	}
+	#endregion
 }

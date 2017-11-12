@@ -61,14 +61,21 @@ class RedisUserMatchSaver implements UserMatchSaverInterface
 	
 	private function checkUserMatches()
 	{
-		return false;
+		$data = $this->redis2->lrange("user:$this->loggedUserID",0,1);
+		if(count($data)>0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	private function createUserMatches()
 	{
 		Redis::pipeline(function($pipe){
+			//takes general match map
 			$matches = $this->matchGenerator->getMatchMap();
 			$this->redis2->del("user:$this->loggedUserID");
+			// saves general match map to users's own list
 			$this->redis2->restore("user:$this->loggedUserID", 0, $matches);
 		});
 	}
