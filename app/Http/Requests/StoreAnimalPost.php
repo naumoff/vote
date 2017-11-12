@@ -26,7 +26,7 @@ class StoreAnimalPost extends FormRequest {
 			'animal-name' => 'required',
 			'type' => 'required',
 			'subtype' => 'required',
-			'photo' => 'required|'
+			'photo' => 'required|file|image|max:1000|dimensions:max_width=700,max_height=700, min_width:100, min_height:200'
 		];
 	}
 	#endregion
@@ -34,7 +34,15 @@ class StoreAnimalPost extends FormRequest {
 	public function withValidator($validator)
 	{
 		$validator->after(function ($validator) {
-//			$validator->errors()->add('field', 'Something is wrong with this field!');
+			$errors = $validator->errors();
+			if($errors->has('photo')){
+				foreach ($errors->get('photo') AS $message){
+					if($message == 'The photo has invalid image dimensions.'){
+						$validator->errors()->add('photo', 'max width: 700 pixels & max height:700 pixels');
+						$validator->errors()->add('photo', 'min width: 100 pixels & min height:200 pixels');
+					}
+				}
+			}
 		});
 		
 		if($validator->fails()){

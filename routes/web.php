@@ -13,6 +13,7 @@
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 Auth::routes();
 
@@ -50,4 +51,10 @@ Route::get('/test', function(\App\Services\UserMatchServiceInterface $userMatch)
 
 Route::get('/rest', function(\App\Services\MatchServiceInterface $allMatch){
 	dd($allMatch->compileMatchMap()->saveMatchMap());
+});
+
+Route::get('/qwest',function(Request $request){
+	dump($request->url());
+	dump($request->fullUrl());
+	echo print_r($_GET);
 });
