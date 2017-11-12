@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Services\RedisUserMatchSaver;
-use App\Services\UserMatchSaverInterface;
+use App\Services\RedisUserMatchService;
+use App\Services\UserMatchServiceInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,7 +14,7 @@ class UpdateUserMatches
 {
 	public $userMatchSaver;
 	
-    public function __construct(userMatchSaverInterface $userMatchSaver)
+    public function __construct(UserMatchServiceInterface $userMatchSaver)
     {
         $this->userMatchSaver = $userMatchSaver;
     }

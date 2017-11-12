@@ -16,7 +16,6 @@ class AnimalsController extends Controller
     
     public function store(StoreAnimalPost $request)
     {
-    	dd('wtf');
 	    session()->flash('message','Your animal saved successfuly');
 	    return back();
     }

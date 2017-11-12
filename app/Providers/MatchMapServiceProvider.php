@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\RedisMatchGenerator;
-use App\Services\MatchGeneratorInterface;
+use App\Services\RedisMatchService;
+use App\Services\MatchServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class MatchMapServiceProvider extends ServiceProvider
@@ -28,12 +28,12 @@ class MatchMapServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(MatchGeneratorInterface::class, function($app){
-        	return new RedisMatchGenerator();
+        $this->app->bind(MatchServiceInterface::class, function($app){
+        	return new RedisMatchService();
         });
     }
     
     public function provides() {
-	    return [MatchGeneratorInterface::class];
+	    return [MatchServiceInterface::class];
     }
 }

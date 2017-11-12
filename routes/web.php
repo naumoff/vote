@@ -44,10 +44,10 @@ Route::group(['middleware' => 'auth'], function () {
  * **********************TEST***********************************
  */
 
-Route::get('/test', function(\App\Services\UserMatchSaverInterface $userMatch){
+Route::get('/test', function(\App\Services\UserMatchServiceInterface $userMatch){
 	$userMatch->saveMatchesForUser();
 });
 
-Route::get('/rest', function(\App\Services\MatchGeneratorInterface $allMatch){
+Route::get('/rest', function(\App\Services\MatchServiceInterface $allMatch){
 	dd($allMatch->compileMatchMap()->saveMatchMap());
 });

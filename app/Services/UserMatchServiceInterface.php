@@ -9,7 +9,7 @@
 namespace App\Services;
 
 
-interface UserMatchSaverInterface {
+interface UserMatchServiceInterface {
 	
 	public function saveMatchesForUser();
 }

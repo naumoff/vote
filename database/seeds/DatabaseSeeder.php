@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
 	private $kittenFur;
 	private $matches;
 	
-	public function __construct(\App\Services\MatchGeneratorInterface $matches) {
+	public function __construct(\App\Services\MatchServiceInterface $matches) {
 		$this->puppyTypes = config('globals.puppyTypes');
 		$this->kittenFur = config('globals.kittenFur');
 		$this->matches = $matches;

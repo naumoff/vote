@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAnimalPost extends FormRequest {
+	
+	#region MAIN METHODS
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *
@@ -27,19 +29,22 @@ class StoreAnimalPost extends FormRequest {
 			'photo' => 'required|'
 		];
 	}
+	#endregion
 	
-	#region SERVICE METHODS
 	public function withValidator($validator)
 	{
-		
-		$inputs = $this->request->all();
-		$this->saveInputsToSession($inputs);
-		
 		$validator->after(function ($validator) {
-			$validator->errors()->add('field', 'Something is wrong with this field!');
+//			$validator->errors()->add('field', 'Something is wrong with this field!');
 		});
+		
+		if($validator->fails()){
+			$inputs = $this->request->all();
+			$this->saveInputsToSession($inputs);
+		}
 	}
 	
+	
+	#region SERVICE METHODS
 	private function saveInputsToSession($inputs)
 	{
 		foreach ($inputs AS $key=>$input)
@@ -55,7 +60,5 @@ class StoreAnimalPost extends FormRequest {
 			}
 		}
 	}
-	
-	
 	#endregion
 }

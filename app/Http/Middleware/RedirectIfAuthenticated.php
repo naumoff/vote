@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\RedisMatchGenerator;
-use App\Services\RedisUserMatchSaver;
+use App\Services\RedisMatchService;
+use App\Services\RedisUserMatchService;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 

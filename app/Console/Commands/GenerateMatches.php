@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\MatchGeneratorInterface;
+use App\Services\MatchServiceInterface;
 use Illuminate\Console\Command;
 
 class GenerateMatches extends Command
@@ -27,7 +27,7 @@ class GenerateMatches extends Command
      *
      * @return void
      */
-    public function __construct( MatchGeneratorInterface $matches)
+    public function __construct(MatchServiceInterface $matches)
     {
         parent::__construct();
         

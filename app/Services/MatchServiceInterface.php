@@ -9,7 +9,7 @@
 namespace App\Services;
 
 
-interface MatchGeneratorInterface {
+interface MatchServiceInterface {
 	public function compileMatchMap();
 	public function saveMatchMap();
 	public function getMatchMap();

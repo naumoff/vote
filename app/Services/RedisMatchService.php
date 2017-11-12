@@ -11,7 +11,7 @@ namespace App\Services;
 use App\Animal;
 use Illuminate\Support\Facades\Redis;
 
-class RedisMatchGenerator implements MatchGeneratorInterface {
+class RedisMatchService implements MatchServiceInterface {
 	
 	private $matches;
 	

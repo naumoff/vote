@@ -11,14 +11,14 @@ namespace App\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
-class RedisUserMatchSaver implements UserMatchSaverInterface
+class RedisUserMatchService implements UserMatchServiceInterface
 {
 	private $loggedUserID;
 	private $matchGenerator;
 	private $redis1;
 	private $redis2;
 	
-	public function __construct(MatchGeneratorInterface $matchGenerator)
+	public function __construct(MatchServiceInterface $matchGenerator)
 	{
 		$this->loggedUserID = Auth::id();
 		$this->matchGenerator = $matchGenerator;
