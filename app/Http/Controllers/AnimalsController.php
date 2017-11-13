@@ -19,11 +19,6 @@ class AnimalsController extends Controller
 	
 	#region MAIN METHODS
 	
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
-	
 	public function create()
     {
 	    return view('add-animal');
@@ -53,7 +48,7 @@ class AnimalsController extends Controller
 		{
 			$animal->photo = $this->getPhotoPath($animal->photo);
 		}
-//		dd($animalsOfLoggedUser->toArray());
+
 		return view('home', ['myAnimals'=>$animalsOfLoggedUser]);
 	}
     

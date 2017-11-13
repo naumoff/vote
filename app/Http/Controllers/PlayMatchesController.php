@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\ScoreUpdaterForAnimal;
+use App\Http\Requests\UpdateAnimalScorePost;
 use App\Services\UserMatchServiceInterface;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,6 @@ class PlayMatchesController extends Controller
 	
 	public function __construct(UserMatchServiceInterface $userMatchService)
 	{
-		$this->middleware('auth');
 		$this->userMatchService = $userMatchService;
 	}
 	public function play()
@@ -29,7 +29,7 @@ class PlayMatchesController extends Controller
 		return view('play-match',['match'=>$match]);
 	}
 	
-	public function vote(Request $request)
+	public function vote(UpdateAnimalScorePost $request)
 	{
 		$this->updateHitsAndScoreInDB($request);
 		return back();

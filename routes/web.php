@@ -45,21 +45,3 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/matches', 'PlayMatchesController@vote');
 	
 });
-
-/**
- * **********************TEST***********************************
- */
-
-Route::get('/test', function(\App\Services\UserMatchServiceInterface $userMatch){
-	$userMatch->saveMatchesForUser();
-});
-
-Route::get('/rest', function(\App\Services\MatchServiceInterface $allMatch){
-	dd($allMatch->compileMatchMap()->saveMatchMap());
-});
-
-Route::get('/qwest',function(Request $request){
-	dump($request->url());
-	dump($request->fullUrl());
-	echo print_r($_GET);
-});
