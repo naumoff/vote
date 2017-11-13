@@ -14,30 +14,39 @@
                     @endif
                     @if(count($myAnimals)>0)
                     <h3>My animals:</h3>
+
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Animal Name</th>
+                            <th>Animal</th>
                             <th>Score</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($myAnimals AS $animal)
-                        <tr>
-                            <td>
-                                <b>{{$animal['name']}}</b>-
-                                {{$animal['type']}}
-                                @if(count($animal['kitten'])>0)
-                                    <br>fur is {{$animal['kitten']['fur']}}.
-                                @elseif(count($animal['puppy'])>0)
-                                    <br>type is {{$animal['puppy']['type']}}
-                                @endif
-                            </td>
-                            <td>{{$animal['score']}}</td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <img src="{{asset($animal->photo)}}"
+                                         class="img-rounded img-responsive"
+                                         alt="picture" width="200" height="150">
+                                </td>
+                                <td>
+                                    {{$animal->type}}: <b>{{$animal->name}}</b><br>
+                                    @if($animal->kitten !== null)
+                                        fur: {{$animal->kitten->fur}}<br>
+                                    @elseif($animal->puppy !== null)
+                                        type: {{$animal->puppy->type}}<br>
+                                    @endif
+                                    <hr>
+                                    victories: <b>{{$animal->victories}}</b><br>
+                                    failures: <b>{{$animal->failures}}</b><br>
+                                    <b style="color:red">score: </b><b>{{$animal->score}}</b>
+                                </td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $myAnimals->links() }}
                     @else
                             <p>{{\Illuminate\Support\Facades\Auth::user()->name}}, you still have no animals! You can add them here:</p>
                             <a href="animals/create">Add your animal here</a>

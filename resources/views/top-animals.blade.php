@@ -7,6 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Dashboard</div>
                     <div class="panel-body">
+                        <h3>Top animals:</h3>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -19,16 +20,16 @@
                             <tr>
                                 <td>
                                     <img src="{{asset($animal->photo)}}"
-                                         class="img-rounded"
+                                         class="img-rounded img-responsive"
                                          alt="picture" width="200" height="150">
                                 </td>
                                 <td>
-                                    {{$animal->type}}:<b>{{$animal->name}}</b><br>
-                                    owner:<b>{{$animal->user->name}}</b>
+                                    {{$animal->type}}: <b>{{$animal->name}}</b><br>
+                                    owner: <b>{{$animal->user->name}}</b>
                                     <hr>
-                                    victories:<b>{{$animal->victories}}</b><br>
-                                    failures:<b>{{$animal->failures}}</b><br>
-                                    score:<b>{{$animal->score}}</b>
+                                    victories: <b>{{$animal->victories}}</b><br>
+                                    failures: <b>{{$animal->failures}}</b><br>
+                                    <b style="color:red">score: </b><b>{{$animal->score}}</b>
                                 </td>
                             </tr>
                             @endforeach

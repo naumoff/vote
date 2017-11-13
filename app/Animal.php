@@ -32,13 +32,12 @@ class Animal extends Model
 		return $animals;
 	}
 	
-	public static function getUserAnimals($userID, $limit=null)
+	public static function getUserAnimals($userID, $perPage=10)
 	{
 		$userAnimals = self::with('kitten','puppy')
 			->where('owner_id','=',$userID)
 			->orderBy('score','desc')
-			->limit($limit)
-			->get();
+			->simplePaginate($perPage);
 		return $userAnimals;
 	}
 	

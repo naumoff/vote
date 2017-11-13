@@ -48,8 +48,12 @@ class AnimalsController extends Controller
 	public function viewMyAnimals()
 	{
 		$animalsOfLoggedUser = $this
-			->getAllAnimalsForLoggedUser()
-			->toArray();
+			->getAllAnimalsForLoggedUser();
+		foreach ($animalsOfLoggedUser as $animal)
+		{
+			$animal->photo = $this->getPhotoPath($animal->photo);
+		}
+//		dd($animalsOfLoggedUser->toArray());
 		return view('home', ['myAnimals'=>$animalsOfLoggedUser]);
 	}
     
@@ -160,7 +164,7 @@ class AnimalsController extends Controller
 	private function getAllAnimalsForLoggedUser()
 	{
 		$userID = Auth::id();
-		$data = Animal::getUserAnimals($userID,50);
+		$data = Animal::getUserAnimals($userID);
 		return $data;
 	}
 	#endregion
