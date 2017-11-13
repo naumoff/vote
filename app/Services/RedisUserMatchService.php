@@ -8,12 +8,15 @@
 
 namespace App\Services;
 
+use App\Services\Traits\GetPhotoPath;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use App\Animal;
 
 class RedisUserMatchService implements UserMatchServiceInterface
 {
+	use GetPhotoPath;
+	
 	private $matchGenerator;
 	private $redis1;
 	private $redis2;
@@ -44,6 +47,9 @@ class RedisUserMatchService implements UserMatchServiceInterface
 		$key = "user:".Auth::id();
 		$match = $this->redis2->rpop($key);
 		$match = unserialize($match);
+		//getting path for photo
+		$match['photo_0'] = $this->getPhotoPath($match['photo_0']);
+		$match['photo_1'] = $this->getPhotoPath($match['photo_1']);
 		//adding current score from DB
 		$match['score_0'] = $this->getAnimalScore($match['id_0']);
 		$match['score_1'] = $this->getAnimalScore($match['id_1']);

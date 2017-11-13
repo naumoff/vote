@@ -70,8 +70,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('logout') }}">
-                                    Watch Score
+                                <a href="{{ route('top') }}">
+                                    Watch Top Score
                                 </a>
                             </li>
                         @endguest

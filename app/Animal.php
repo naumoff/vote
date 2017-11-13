@@ -41,6 +41,15 @@ class Animal extends Model
 			->get();
 		return $userAnimals;
 	}
+	
+	public static function getTopScoreAnimals($perPage = 10)
+	{
+		$topAnimals = self::with('user')
+			->orderBy('score','desc')
+			->simplePaginate($perPage);
+
+		return $topAnimals;
+	}
 	#endregion
  
 	#region RELATION METHODS

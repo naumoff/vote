@@ -7,15 +7,24 @@ use App\Http\Requests\StoreAnimalPost;
 use App\Kitten;
 use App\Puppy;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Traits\GetPhotoPath;
 
 class AnimalsController extends Controller
 {
+	use GetPhotoPath;
+	
 	#region CLASS PROPERTIES
 		private $storeRequest;
 	#endregion
 	
 	#region MAIN METHODS
-    public function create()
+	
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
+	public function create()
     {
 	    return view('add-animal');
     }
@@ -34,6 +43,23 @@ class AnimalsController extends Controller
 	    
 	    session()->flash('message','Your animal saved successfuly');
 	    return back();
+    }
+	
+	public function viewMyAnimals()
+	{
+		$animalsOfLoggedUser = $this
+			->getAllAnimalsForLoggedUser()
+			->toArray();
+		return view('home', ['myAnimals'=>$animalsOfLoggedUser]);
+	}
+    
+    public function viewTopScore()
+    {
+		$topAnimals = Animal::getTopScoreAnimals(10);
+		foreach ($topAnimals AS $animal){
+			$animal->photo = $this->getPhotoPath($animal->photo);
+		}
+		return view('top-animals',['topAnimals'=>$topAnimals]);
     }
     
     #endregion
@@ -129,6 +155,13 @@ class AnimalsController extends Controller
 			$animal->photo = $pathToFile;
 			$animal->save();
 		}
+	}
+	
+	private function getAllAnimalsForLoggedUser()
+	{
+		$userID = Auth::id();
+		$data = Animal::getUserAnimals($userID,50);
+		return $data;
 	}
 	#endregion
  

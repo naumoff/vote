@@ -30,7 +30,9 @@ Route::get('/logout',function(){
 
 Route::group(['middleware' => 'auth'], function () {
 	
-	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/home', 'AnimalsController@viewMyAnimals')->name('home');
+	
+	Route::get('/top-animals', 'AnimalsController@viewTopScore')->name('top');
 	
 	Route::get('/animals/create', 'AnimalsController@create')->name('create-animal-form');
 	
@@ -39,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/animals/form-part-loader/{type}/{subtype}', 'AnimalsController@loadFormPart');
 	
 	Route::get('/matches/play', 'PlayMatchesController@play')->name('play');
+	
+	Route::post('/matches', 'PlayMatchesController@vote');
 	
 });
 
