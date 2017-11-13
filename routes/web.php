@@ -11,7 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -38,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/animals', 'AnimalsController@store');
 	
 	Route::get('/animals/form-part-loader/{type}/{subtype}', 'AnimalsController@loadFormPart');
+	
+	Route::get('/matches/play', 'PlayMatchesController@play')->name('play');
 	
 });
 

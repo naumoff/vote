@@ -6,9 +6,7 @@ use App\Animal;
 use App\Http\Requests\StoreAnimalPost;
 use App\Kitten;
 use App\Puppy;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AnimalsController extends Controller
 {
@@ -125,7 +123,7 @@ class AnimalsController extends Controller
 				->storeAs('public/kittens',$fileName);
 		}
 		
-		// updating photo column in animal table
+		// updating photo column in animals table
 		if($pathToFile !== null){
 			$animal = Animal::find($animalID);
 			$animal->photo = $pathToFile;

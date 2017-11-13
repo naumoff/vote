@@ -12,4 +12,5 @@ namespace App\Services;
 interface UserMatchServiceInterface {
 	
 	public function saveMatchesForUser();
+	public function takeMatchForUser();
 }
